@@ -13,13 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('assistidos', function (Blueprint $table) {
+        Schema::create('municipios', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedInteger('pessoa_id')->nullable(false);
-            $table->foreign('pessoa_id')->references('id')->on('pessoas');
+            $table->string('nome', 128)->nullable(false);
 
-            $table->timestamps();
+            $table->unsignedInteger('estado_id')->nullable(false);
+            $table->foreign('estado_id')->references('id')->on('estados')->onDelete('cascade')->onDelete('cascade');
+            
         });
     }
 
@@ -30,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('assistidos');
+        Schema::dropIfExists('municipios');
     }
 };

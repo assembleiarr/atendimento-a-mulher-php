@@ -4,6 +4,9 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+use App\Http\Controllers\AtendimentosController;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -27,5 +30,11 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::controller(AtendimentosController::class)->group(function () {
+    Route::get('/atendimentos', 'index')->name('atendimentos'); 
+    Route::get('/atendimento', 'create')->name('atendimento.cadastrar');  
+    Route::post('/atendimento', 'store')->name('atendimento.salvar'); 
+});
 
 require __DIR__.'/auth.php';

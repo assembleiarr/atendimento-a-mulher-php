@@ -15,6 +15,13 @@ return new class extends Migration
     {
         Schema::create('atendimentos', function (Blueprint $table) {
             $table->id();
+
+            $table->timestamp('data_hora')->nullable(true);
+            $table->enum('recepcao_tipo', ['PRESENCIAL', 'ZAPCHAME'])->nullable(false);
+            $table->boolean('is_importado')->nullable(true);
+            $table->string('areas')->nullable(true);
+            $table->text('observacao')->nullable(true);
+
             $table->timestamps();
         });
     }

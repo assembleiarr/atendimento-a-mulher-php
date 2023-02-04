@@ -13,13 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('assistidos', function (Blueprint $table) {
+        Schema::create('estados', function (Blueprint $table) {
             $table->id();
-
-            $table->unsignedInteger('pessoa_id')->nullable(false);
-            $table->foreign('pessoa_id')->references('id')->on('pessoas');
-
-            $table->timestamps();
+            
+            $table->string('nome', 128)->nullable(false);
+            $table->string('sigla', 2)->nullable(false);
+            $table->boolean('is_estrangeiro')->nullable(false)->default(false);
         });
     }
 
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('assistidos');
+        Schema::dropIfExists('estados');
     }
 };
