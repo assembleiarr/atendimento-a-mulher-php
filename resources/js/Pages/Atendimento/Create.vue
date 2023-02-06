@@ -3,8 +3,8 @@
 
     <AdminLayout>
         <div>  
-            <h1 class="mb-8 text-2xl">
-                Cadastrar atendimento
+            <h1 class="mb-8 text-3xl font-bold flex items-center text-pink-600">
+                <ph-chat-teardrop-text :size="32" class="mr-2"/> Cadastrar atendimento
             </h1>
 
             <div class="w-full bg-white rounded-md shadow overflow-hidden">
@@ -28,6 +28,9 @@
                         <LoadingButton :loading="form.processing" class="btn bg-pink-600 hover:bg-pink-800" type="submit">Salvar</LoadingButton>
                     </div>
                 </form>
+                <ph-horse />
+                <ph-heart :size="32" color="hotpink" weight="fill" />
+                <ph-cube />
             </div> 
            
         </div>
