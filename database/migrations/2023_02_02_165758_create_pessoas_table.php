@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('nome', 128)->nullable(true);
             $table->string('cpf', 11)->nullable(true);
             $table->enum('sexo', ['M', 'F', 'OUTROS'])->nullable(true);
-            $table->string('local_arquivo', 32)->nullable(true);
             $table->date('data_nascimento')->nullable(true);
             $table->string('telefone_principal', 11)->nullable(true);
             $table->string('telefone_alternativo', 11)->nullable(true);

@@ -31,9 +31,11 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+
 Route::controller(AtendimentosController::class)->group(function () {
     Route::get('/atendimentos', 'index')->name('atendimentos'); 
-    Route::get('/atendimento', 'create')->name('atendimento.cadastrar');  
+    Route::get('/atendimento', 'create')->name('atendimento.cadastrar');
+    Route::get('/atendimento/importar', 'importar')->name('atendimento.importar'); 
     Route::post('/atendimento', 'store')->name('atendimento.salvar'); 
 });
 

@@ -2,7 +2,11 @@
   <nav>    
     <div class="mb-2">
       <ul>
-        <li> Menu 1</li>
+        <li><Link href="/atendimentos">Atendimentos</Link></li>
+
+        <li><Link href="/atendimento">Novo Atendimento</Link></li>
+        <li><Link href="/atendimento/importar">Importar atendimento</Link></li>
+
         <li> Menu 2</li>
         <li> Menu 3</li>
         <li> Menu 4</li>

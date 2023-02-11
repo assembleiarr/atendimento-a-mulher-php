@@ -18,6 +18,8 @@ return new class extends Migration
 
             $table->unsignedInteger('pessoa_id')->nullable(false);
             $table->foreign('pessoa_id')->references('id')->on('pessoas');
+            $table->string('local_arquivo', 32)->nullable(true);
+
 
             $table->timestamps();
         });

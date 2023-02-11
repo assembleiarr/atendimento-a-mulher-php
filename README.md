@@ -11,6 +11,11 @@
 
 npm i @popperjs/core
 npm install uuid
+npm install --save phosphor-vue@next
+npm i maska
+npm i v-calendar@3.0.0-alpha.4
+
+
 
 
 

@@ -17,10 +17,13 @@ return new class extends Migration
             $table->id();
 
             $table->timestamp('data_hora')->nullable(true);
-            $table->enum('recepcao_tipo', ['PRESENCIAL', 'ZAPCHAME'])->nullable(false);
+            $table->string('recepcao_tipo',16)->nullable(false);
             $table->boolean('is_importado')->nullable(true);
             $table->string('areas')->nullable(true);
             $table->text('observacao')->nullable(true);
+            
+            $table->unsignedInteger('assistido_id')->nullable(true);
+            $table->foreign('assistido_id')->references('id')->on('assistidos')->onUpdate('cascade')->onDelete('cascade');
 
             $table->timestamps();
         });

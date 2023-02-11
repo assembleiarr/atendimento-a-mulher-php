@@ -34,3 +34,10 @@
 .form-error {
   @apply text-red-700 mt-2 text-sm;
 }
+
+input[type='checkbox']:checked{
+  @apply text-pink-400 ring-0;
+}
+input[type='checkbox']{
+  @apply ring-0;
+}

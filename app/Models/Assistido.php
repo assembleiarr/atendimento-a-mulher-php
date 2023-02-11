@@ -8,4 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Assistido extends Model
 {
     use HasFactory;
+
+    protected $table = 'assistidos';
+
+    protected $fillable = [
+        'local_arquivo',
+        'pessoa_id'
+    ];
+
+    public function pessoa()
+    {
+        return $this->belongsTo(Pessoa::class);
+    }
+
 }

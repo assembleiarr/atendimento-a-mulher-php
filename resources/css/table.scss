@@ -1,0 +1,35 @@
+table.table-default{
+    @apply 
+        w-full whitespace-nowrap bg-white;
+
+}
+
+table.table-default td{
+    
+}
+
+table.table-default thead{
+    @apply font-bold bg-stone-100;
+}
+
+table.table-default tbody tr{
+    @apply hover:bg-gray-100 focus-within:bg-gray-100;
+}
+
+table.table-default th{
+    @apply pb-4 pt-4 px-6 text-gray-800;
+}
+
+
+table.table-default th.start{
+    @apply text-start;
+}
+
+
+table.table-default td{
+    @apply px-4 py-3 border-t text-center;
+}
+
+table.table-default td.start{
+    @apply text-start;
+}
