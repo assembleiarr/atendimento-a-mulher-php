@@ -40,8 +40,9 @@ class Pessoa extends Model
     public function getTelefonePrincipalAttribute($value)
     {
         $telefone =  $this->attributes['telefone_principal'];
+        $formatado = "(".substr($telefone,0,2).") ".substr($telefone,2);
 
-        return $telefone;
+        return $formatado;
 	}
 
     public function endereco()

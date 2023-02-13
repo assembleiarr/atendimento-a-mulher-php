@@ -18,7 +18,7 @@ return new class extends Migration
             $table->id();
 
             $table->string('nome', 128)->nullable(true);
-            $table->string('cpf', 11)->nullable(true);
+            $table->string('cpf', 11)->nullable(true)->unique();
             $table->enum('sexo', ['M', 'F', 'OUTROS'])->nullable(true);
             $table->date('data_nascimento')->nullable(true);
             $table->string('telefone_principal', 11)->nullable(true);

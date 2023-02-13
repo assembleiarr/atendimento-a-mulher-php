@@ -26,6 +26,7 @@
         "phosphor-vue": "^4.4.1",
         "uuid": "^9.0.0",
         "v-calendar": "^3.0.0-alpha.4",
-        "vue-date-pick": "^1.5.1"
+        "vue-date-pick": "^1.5.1",
+        "vue-sidebar-menu": "^5.2.5"
     }
 }
