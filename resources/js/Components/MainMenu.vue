@@ -1,31 +1,53 @@
 <template>
-  <nav>    
-    <div class="mb-2">
-      <ul>
-        <li><Link href="/atendimentos">Atendimentos</Link></li>
+  <div>
+   
+    <div class="mb-4">   
 
-        <li><Link href="/atendimento">Novo Atendimento</Link></li>
-        <li><Link href="/atendimento/importar">Importar atendimento</Link></li>
-
-        <li> Menu 2</li>
-        <li> Menu 3</li>
-        <li> Menu 4</li>
-      </ul>  
+      <div v-for="item in menu">
+        <MenuList :items="item" />
+      </div>      
       
-      <ul>
-        <li>Submenu 1</li>
-        <li>Submenu 2</li>
-        <li>Submenu 3</li>
-        <li>Submenu 4</li>
-      </ul>
-    </div>       
-  </nav>
+      
+
+      <Link class="group flex items-center py-3 text-gray-200" href="/atendimento">
+        <ph-chat-teardrop-text :size="32" class="mr-2"/>     
+        <div>Cadastrar atendimento</div>
+      </Link>
+
+      <Link class="group flex items-center py-3 text-gray-200" href="/atendimento/importar">
+        <ph-file-arrow-down weight="fill" :size="32" class="mr-2"/>    
+        <div>Importar atendimento</div>
+      </Link>
+    </div>
+    
+  </div>
 </template>
 
 <script setup>
-    import { usePage } from '@inertiajs/inertia-vue3'
-    import { computed } from 'vue'
-    import { Link } from '@inertiajs/inertia-vue3';
+    import MenuList  from '@/Components/MenuList.vue';
 
-    const ous = computed(() => usePage().props.value.ous)         
+    const menu = [{
+      'nome':'Atendimentos',
+      'subitems': [{
+          'nome' : 'Cadastrar atendimento',
+          'link' : '/atendimento'
+        },
+        {
+          'nome' : 'Importar atendimento',
+          'link' : '/atendimento/importar'
+        }],
+    },
+    // {
+    //   'nome':'Atendimentos2',
+    //   'subitems': [{
+    //       'nome' : 'submenu2-1',
+    //       'link' : 'link1'
+    //     },
+    //     {
+    //       'nome' : 'submenu2-2',
+    //       'link' : 'link2'
+    //     }],
+    // }
+  ]
+
 </script>
