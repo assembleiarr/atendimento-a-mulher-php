@@ -1,26 +1,8 @@
 <template>
-      
-    <!-- /**
-    **** Barra de pesquisa
-    */ -->
-
+     
     <div :class="isActive ? 'bg-slate-200' : 'bg-white'" class="md:w-1/2 relative border rounded-lg flex items-center">
         <i class="ph-magnifying-glass-light pl-3 text-xl"></i>
-        
-        <!-- <form class="w-full" @submit.prevent="form.post('/usuario/search')" @submit.stop=" form.reset()">
-            <input 
-                @focus="isActive=true" 
-                @blur="isActive=false" 
-                :class="isActive ? 'bg-slate-200' : 'bg-white'" 
-                class="p-2 w-5/6 text-lg focus:outline-none" 
-                v-model="form.search" placeholder="Pesquisar usuário" autocomplete="off"
-            />
-        </form> -->
     </div>    
-
-    <!-- /**
-    **** Carregando o componente o menu dropdown
-    */ -->
 
     <Dropdown class="" placement="bottom-end">
         <template #default>
@@ -48,6 +30,5 @@
 
 <script setup>
     import { Link } from '@inertiajs/inertia-vue3';
-    import Dropdown from '@/Components/Dropdown.vue';
-   
+    import Dropdown from '@/Components/Dropdown.vue';   
 </script>

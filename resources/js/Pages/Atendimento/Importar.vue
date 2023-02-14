@@ -11,13 +11,14 @@
 
                 <form @submit.prevent="form.post('/atendimento')">
 
-                    <div class="flex flex-wrap -mb-8 -mr-6 p-8 outline-none box-border">    
+                    <div class="flex flex-wrap -mb-8 -mr-6 p-8 outline-none box-border">
+                        <TextInput @blur="loadAssistido" v-model="form.cpf" v-maska data-maska="###.###.###-##" :error="form.errors.cpf" class="pb-8 pr-6 w-full lg:w-1/3" label="CPF" />
+                        <div class="w-2/3"></div>
+
                         <TextInput v-model="form.nome" :error="form.errors.nome" class="pb-8 pr-6 w-full lg:w-2/3" label="Nome do assistido"/>
                         <TextInput v-model="form.local_arquivo" :error="form.errors.local_arquivo" class="pb-8 pr-6 w-full lg:w-1/3" label="Nº/LETRA de identificação no Arquivo"/>
 
                         <TextInput v-model="form.data_atendimento" v-maska data-maska="##/##/####" placeholder="DD/MM/AAAA" :error="form.errors.data_atendimento" class="pb-8 pr-6 w-full lg:w-1/3" label="Data do atendimento"/>
-
-                        <TextInput v-model="form.cpf" v-maska data-maska="###.###.###-##" :error="form.errors.cpf" class="pb-8 pr-6 w-full lg:w-1/3" label="CPF" />
 
                         <SelectInput @change="loadMunicipios(form.estado)" v-model="form.estado" :error="form.errors.estado" class="pb-8 pr-6 w-full lg:w-1/3" label="Estado">
                             <option :value="null">Selecione o Estado </option>
@@ -39,10 +40,14 @@
                             <label class="form-label flex items-center" :class="form.errors.areas ? 'text-red-700 font-semibold' : '' ">Áreas de atendimento: </label>
 
                             <div class="flex items-center pt-2">
-                                <input @click="setAreas" class= "cursor-pointer appearance-none checked:bg-pink-500 checked:ring-0" type="checkbox" id="social"><label class="mr-8 pl-2 cursor-pointer hover:text-pink-500 ckecked:bg-pink-300" for="social">Social</label>
-                                <input @click="setAreas" class="cursor-pointer appearance-none checked:bg-pink-500" type="checkbox" id="juridica"><label class="mr-8 pl-2 cursor-pointer hover:text-pink-500" for="juridica">Jurídica</label>
-                                <input @click="setAreas" class="cursor-pointer appearance-none checked:bg-pink-500" type="checkbox" id="psicologica"><label class="mr-8 pl-2 cursor-pointer hover:text-pink-500" for="psicologica">Psicológica</label>
-                                <input @click="setAreas" class="cursor-pointer appearance-none checked:bg-pink-500" type="checkbox" id="multidisciplinar"><label class="mr-8 pl-2 cursor-pointer hover:text-pink-500" for="multidisciplinar">Multidisciplinar</label>
+                                <div v-for="area, key in areas">
+                                    <input  @click="setAreas" type="checkbox" :id="key" class="cursor-pointer appearance-none checked:bg-pink-500"/><label :for="area.key" class="mr-8 pl-2 cursor-pointer hover:text-pink-500 ckecked:bg-pink-300">{{ area }}</label>
+                                </div>
+                                
+                                <!-- <input @click="setAreas"  id="social"><label class="mr-8 pl-2 cursor-pointer hover:text-pink-500 ckecked:bg-pink-300" for="social">Social</label>
+                                <input @click="setAreas"  id="juridica"><label class="mr-8 pl-2 cursor-pointer hover:text-pink-500" for="juridica">Jurídica</label>
+                                <input @click="setAreas" class="cursor-pointer appearance-none checked:bg-pink-500" type="checkbox" id="psicologica">
+                                <input @click="setAreas" class="cursor-pointer appearance-none checked:bg-pink-500" type="checkbox" id="multidisciplinar"><label class="mr-8 pl-2 cursor-pointer hover:text-pink-500" for="multidisciplinar">Multidisciplinar</label> -->
                             </div>
 
                             <div v-if="form.errors.areas" class="form-error">{{ form.errors.areas }}</div>
@@ -78,6 +83,7 @@
 
     const props = defineProps({
         estados: Object,
+        areas: Object,
     });
 
     const municipios = ref([]);
@@ -127,6 +133,34 @@
             .then(function () {
                 // sempre será executado
             });  
+    }
+
+    function loadAssistido(){
+        const cpf = form.cpf.replace(/\D/gim, '');
+
+        axios.get('/api/assistido/'+cpf)
+            .then(function (response) {
+               
+
+                if(response.data){ 
+                    let fields = Object.keys(response.data);             
+
+                    fields.forEach((item) => {
+                       
+                        form[item] = response.data[item];
+                    });
+
+                }else{
+                    form.nome = null;
+                }
+            })
+            .catch(function (error) {
+                console.error(error);
+            })
+            .then(function () {
+                // sempre será executado
+            });  
+
     }
 
 </script>

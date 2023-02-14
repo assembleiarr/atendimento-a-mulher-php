@@ -17,8 +17,11 @@ createInertiaApp({
     title: (title) => `${title} - ${appName}`,
     resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue')),
     setup({ el, app, props, plugin }) {
-        return createApp({ render: () => h(app, props) })
-            .use(plugin)
+        const VueApp = createApp({ render: () => h(app, props) });
+
+        VueApp.config.globalProperties.$route = route;
+
+        VueApp.use(plugin)
             .use(ZiggyVue, Ziggy)
             .use(PhosphorVue)
             .use(VCalendar, {})

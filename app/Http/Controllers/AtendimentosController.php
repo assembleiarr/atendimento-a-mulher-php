@@ -42,6 +42,7 @@ class AtendimentosController extends Controller
 
         return Inertia::render('Atendimento/Importar', [
             'estados' => $estados,
+            'areas' => \App\Models\Area::all()->pluck('nome', 'id')
         ]);
     }
 
@@ -70,7 +71,6 @@ class AtendimentosController extends Controller
 
     public function store(StoreAtendimentoRequest $request)
     {
-
         $pessoa = \App\Models\Pessoa::create([
            'nome' => $request->get('nome'),
            'cpf' => $request->get('cpf'),
@@ -94,8 +94,11 @@ class AtendimentosController extends Controller
         $atendimento = \App\Models\Atendimento::create([
             'assistido_id' => $assistido->id,
             'recepcao_tipo' => $request->get('recepcao_tipo'),
-            'is_importado' => $request->get('is_importado')
-        ]);        
+            'is_importado' => $request->get('is_importado'),
+            'data_atendimento' => $request->get('data_atendimento'),
+        ]);   
+        
+        $atendimento->areas()->attach($request->get('areas'));
 
         return redirect()->route('atendimentos')->with('success', 'Atendimento cadastrado.');
        

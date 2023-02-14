@@ -20,7 +20,7 @@ class AreaSeeder extends Seeder {
         DB::table('areas')->insert([
             ['nome' => 'Jurídica'],
             ['nome' => 'Social'],
-            ['nome' => 'Psicológia'],
+            ['nome' => 'Psicológica'],
             ['nome' => 'Multidisciplinar'],
         ]);
     }

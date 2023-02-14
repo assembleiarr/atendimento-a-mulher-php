@@ -4,9 +4,9 @@
     <div class="md:flex md:flex-col">
       <div class="md:flex md:flex-col md:h-screen">
         <div class="md:flex md:flex-shrink-0">
-          <div class="flex items-center justify-between px-6 py-4 bg-pink-100 md:flex-shrink-0 md:justify-center md:w-56 md:h-16">
+          <div class="flex items-center justify-between px-6 py-4 bg-white md:flex-shrink-0 md:justify-center md:w-64 md:h-16">
             <Link class="mt-1" href="/">
-              <img class="fill-white object-fill h-12" src="../../img/procuradoria-mulher.png"/>
+              <img class="fill-white object-fill h-14" src="../../img/procuradoria-mulher.png"/>
             </Link>
             <Dropdown class="md:hidden" placement="bottom-end">
               <template #default>
@@ -19,11 +19,11 @@
               </template>
             </Dropdown>
           </div>
-          <div class="md:text-md flex items-center justify-between p-4 w-full text-sm bg-white border-b md:px-12 md:py-0">
+          <div class="md:text-md flex items-center shadow justify-between p-4 w-full text-sm bg-white md:px-12 md:py-0">
             <div class="mr-4 mt-1 flex items-center text-pink-700 font-bold text-lg">
               <!-- <img class="fill-white object-fill h-12 mr-5" src="../../img/chame.png"/>  -->
               CENTRO HUMANITÁRIO DE APOIO À MULHER
-            </div>
+            </div> 
             <Dropdown class="mt-1" placement="bottom-end">
               <template #default>
                 <div class="group flex items-center cursor-pointer select-none">
@@ -45,7 +45,7 @@
           </div>
         </div>
         <div class="md:flex md:flex-grow md:overflow-hidden">
-          <MainMenu class="hidden flex-shrink-0 p-4 w-56 bg-gray-500 overflow-y-auto md:block" />
+          <MainMenu class="hidden flex-shrink-0 p-4 w-64 bg-gray-800 overflow-y-auto md:block" />
           <div class="px-4 py-8 md:flex-1 md:p-12 md:overflow-y-auto" scroll-region>
             <FlashMessages />
             <slot />

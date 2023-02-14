@@ -17,9 +17,9 @@ return new class extends Migration
             $table->id();
 
             $table->unsignedInteger('pessoa_id')->nullable(false);
-            $table->foreign('pessoa_id')->references('id')->on('pessoas');
-            $table->string('local_arquivo', 32)->nullable(true);
+            $table->foreign('pessoa_id')->references('id')->on('pessoas')->onUpdate('cascade')->onDelete('cascade');
 
+            $table->string('local_arquivo', 32)->nullable(true);
 
             $table->timestamps();
         });

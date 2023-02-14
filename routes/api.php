@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AtendimentosController;
+use App\Http\Controllers\AssistidosController;
+
 
 
 /*
@@ -23,4 +25,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/municipios/{estado_id}', [AtendimentosController::class, 'municipios']);
 Route::get('/paises', [AtendimentosController::class, 'paises']);
+
+Route::get('/assistido/{cpf}', [AssistidosController::class, 'api']);
+
 

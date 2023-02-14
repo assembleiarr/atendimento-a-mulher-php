@@ -5,10 +5,9 @@
 
       <div v-for="item in menu">
         <MenuList :items="item" />
-      </div>      
+      </div>            
       
-      
-
+<!-- 
       <Link class="group flex items-center py-3 text-gray-200" href="/atendimento">
         <ph-chat-teardrop-text :size="32" class="mr-2"/>     
         <div>Cadastrar atendimento</div>
@@ -17,7 +16,7 @@
       <Link class="group flex items-center py-3 text-gray-200" href="/atendimento/importar">
         <ph-file-arrow-down weight="fill" :size="32" class="mr-2"/>    
         <div>Importar atendimento</div>
-      </Link>
+      </Link> -->
     </div>
     
   </div>
@@ -28,15 +27,25 @@
 
     const menu = [{
       'nome':'Atendimentos',
-      'subitems': [{
+      'icon' : 'ph-chat-teardrop-text',
+      'subitems': [
+        {
+          'nome' : 'Consultar atendimentos',
+          'link' : 'atendimentos'
+        },
+        {
           'nome' : 'Cadastrar atendimento',
-          'link' : '/atendimento'
+          'link' : 'atendimento.cadastrar'
         },
         {
           'nome' : 'Importar atendimento',
-          'link' : '/atendimento/importar'
+          'link' : 'atendimento.importar'
         }],
     },
+    {
+      'nome':'Relatórios',
+      'icon' : 'ph-chart-line-up',
+    }
     // {
     //   'nome':'Atendimentos2',
     //   'subitems': [{

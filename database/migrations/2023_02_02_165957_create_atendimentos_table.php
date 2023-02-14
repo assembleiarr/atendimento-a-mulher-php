@@ -19,13 +19,11 @@ return new class extends Migration
             $table->unsignedInteger('assistido_id')->nullable(true);
             $table->foreign('assistido_id')->references('id')->on('assistidos')->onUpdate('cascade')->onDelete('cascade');
 
-            $table->unsignedInteger('area_id')->nullable(true);
-            $table->foreign('area_id')->references('id')->on('areas');
+            $table->date('data_atendimento')->nullable(true);
+            $table->time('hora_atendimento', 0)->nullable(true);
 
-            $table->timestamp('data_hora')->nullable(true);
             $table->string('recepcao_tipo',16)->nullable(false);
             $table->boolean('is_importado')->nullable(true);
-            $table->string('areas')->nullable(true);
             $table->text('observacao')->nullable(true);
             
             $table->timestamps();
