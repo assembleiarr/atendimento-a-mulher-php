@@ -3,12 +3,17 @@
 
     <AdminLayout>
         <div>
+             <Loading :active.sync="isLoading" 
+                :can-cancel="true" 
+                :is-full-page="false" 
+                color="#DB2777" 
+            />
+
             <h1 class="mb-8 text-3xl font-bold flex items-center text-pink-600">
                 <ph-chat-teardrop-text :size="32" class="mr-2"/> Atendimentos
             </h1>
 
             <TableLite 
-                :is-loading="table.isLoading"
                 :is-re-search="table.isReSearch"
                 :columns="table.columns"
                 :rows="table.rows"
@@ -27,13 +32,17 @@
     import { Head } from '@inertiajs/inertia-vue3';
     import AdminLayout from '@/Layouts/AdminLayout.vue';
     import TableLite from "vue3-table-lite";
+    import Loading from 'vue-loading-overlay';
+    import 'vue-loading-overlay/dist/css/index.css';
     
     const props = defineProps({
         atendimentos: Object,
     });
 
+    const isLoading = ref(false);
+
+
     const table = reactive({
-        isLoading: true,
         isReSearch: false,
         columns: [
             {
@@ -48,11 +57,11 @@
             {
                 label: "CPF",
                 field: "cpf",
-                width: "10%",
-                sortable: true,
+                width: "3%",
+                sortable: false,
             },
             {
-                label: "NOME",
+                label: "Nome do assistido",
                 field: "nome",
                 width: "10%",
                 sortable: true,
@@ -60,7 +69,7 @@
             {
                 label: "Data atendimento",
                 field: "data_atendimento",
-                width: "10%",
+                width: "3%",
                 sortable: true,
             },
         ],
@@ -73,23 +82,22 @@
     });
 
     const doSearch = (offset, limit, order, sort) => {
-        table.isLoading = true;
-
-        setTimeout(() => {
-            table.isReSearch = offset == undefined ? true : false;
-           
-            if(offset >= limit){
-                limit = offset+limit;
-            }
-
-            table.rows = getDados(props.atendimentos, offset, limit, order, sort);
+        isLoading.value = true;
+       
+        table.isReSearch = offset == undefined ? true : false;
         
-            table.totalRecordCount = table.rows.length;
-            table.sortable.order = order;
-            table.sortable.sort = sort;
+        if(offset >= limit){
+            limit = offset+limit;
+        }
 
-            table.isLoading = false;
-        }, 600);
+        table.rows = getDados(props.atendimentos, offset, limit, order, sort);
+
+        table.totalRecordCount = table.rows.length;
+        table.sortable.order = order;
+        table.sortable.sort = sort;
+
+        isLoading.value = false;
+       
     };
 
     const getDados = (atendimentos, offst, limit, order, sort) => {  
@@ -125,11 +133,11 @@
 
             elemento.data_atendimento =elemento.data_atendimento.split('-').reverse().join('/');
 
-            return elemento;
+            return elemento;    
         });
     }   
 
-    doSearch(0,10,'id','asc');
+    doSearch(0,20,'id','desc');
     
 </script>
 
@@ -138,9 +146,28 @@
         text-align: center !important;
     }
 
-    ::slotted(.vtl-table .vtl-thead .vtl-thead-th) {
-        background-color: #000;
+    .vtl-table{       
+        @apply rounded-md mb-5 bg-white border-0;
     }
+
+    .vtl-tbody-td{       
+        @apply border-x-0 !important;
+    }
+
+    .vtl-table thead th{
+        @apply border-0 !important;
+        @apply bg-gray-600 !important;
+        
+    }
+
+    .vtl-table thead th .vtl-sortable{
+        @apply hover:text-pink-400;
+    }
+
+    .vtl-card{
+        @apply bg-gray-100 !important;
+    }
+   
 </style>
 
     

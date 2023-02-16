@@ -5,7 +5,7 @@
       <div class="md:flex md:flex-col md:h-screen">
         <div class="md:flex md:flex-shrink-0">
           <div class="flex items-center justify-between px-6 py-4 bg-white md:flex-shrink-0 md:justify-center md:w-64 md:h-16">
-            <Link class="mt-1" href="/">
+            <Link  href="/">
               <img class="fill-white object-fill h-14" src="../../img/procuradoria-mulher.png"/>
             </Link>
             <Dropdown class="md:hidden" placement="bottom-end">

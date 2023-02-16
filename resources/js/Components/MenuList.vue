@@ -3,7 +3,7 @@
       <div class="mt-2 text-gray-200 font-bold">
 
         <div :class="submenu == true ? 'bg-gray-300 text-gray-700' : ''" class="rounded p-1.5 py-2 flex items-center cursor-pointer" @click="submenu = !submenu">
-          <component :is="items.icon" weight="bold" :size="18" class="mr-2"/>
+          <component :is="items.icon" weight="bold" :size="24" class="mr-2"/>
           
           <div class="w-2/3 pl-2">
             {{ items.nome }}
@@ -12,8 +12,7 @@
           <div v-if="items.subitems" class="float-right">
             <ph-caret-down  v-show="!submenu" :size="16" class="ml-8"/>
             <ph-caret-up  v-show="submenu" :size="16" class="ml-8"/>
-          </div>
-      
+          </div>      
         
         </div>
 
@@ -22,7 +21,8 @@
               
               <Link :class="ix.link == routeActive ? 'text-pink-400' : ''" class="hover:text-pink-400 flex items-center" :href="$route(ix.link)">
                 {{ ix.nome }}
-              </Link>              
+              </Link>       
+                       
             </div>
         </div>
 
