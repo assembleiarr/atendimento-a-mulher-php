@@ -9,6 +9,8 @@ class Pessoa extends Model
 {
     use HasFactory;
 
+    protected $table = 'pessoas';
+
     protected $fillable = [
         'nome',
         'cpf',
@@ -49,4 +51,11 @@ class Pessoa extends Model
     {
         return $this->hasOne(Endereco::class);
     }
+
+    public function assistido()
+    {
+        return $this->hasOne(Assistido::class);
+    }
+
+
 }

@@ -7,58 +7,140 @@
                 <ph-chat-teardrop-text :size="32" class="mr-2"/> Atendimentos
             </h1>
 
-            <div class="bg-white rounded-md shadow">
-
-                <table class="table-default">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>CPF</th>
-                            <th class="start">Assistido</th>
-                            <th>Data</th>
-                            <th>Recepção</th>
-                            <th>Importado</th>
-                           
-                            <th>Telefone</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        <tr v-for="atendimento in atendimentos.data" :key="atendimento.id">
-
-                            <td>{{ atendimento.id }}</td>
-                            <td>{{ atendimento.assistido.pessoa.cpf }}</td>
-                            <td class="start">{{ atendimento.assistido.pessoa.nome }}</td>
-                            <td>{{ atendimento.data_hora }}</td>
-                            <td>{{ atendimento.recepcao_tipo }}</td>
-                            <td>{{ atendimento.is_importado }}</td>
-                           
-                            <td>{{ atendimento.assistido.pessoa.telefone_principal }}</td>
-
-                        </tr>
-
-                    </tbody>                    
-                </table>
-            </div>
-        </div>
-
-
-        <Pagination class="mt-6" :links="atendimentos.links" />
+            <TableLite 
+                :is-loading="table.isLoading"
+                :is-re-search="table.isReSearch"
+                :columns="table.columns"
+                :rows="table.rows"
+                :total="table.totalRecordCount"
+                :sortable="table.sortable"
+                @do-search="doSearch"
+            />
+        </div>        
 
     </AdminLayout>  
     
 </template>
 
 <script setup>
-    import { Head, Link } from '@inertiajs/inertia-vue3';
+    import { ref, computed, reactive} from 'vue';
+    import { Head } from '@inertiajs/inertia-vue3';
     import AdminLayout from '@/Layouts/AdminLayout.vue';
-    import Pagination from '@/Components/Pagination.vue';
+    import TableLite from "vue3-table-lite";
     
-    const proos = defineProps({
+    const props = defineProps({
         atendimentos: Object,
     });
 
+    const table = reactive({
+        isLoading: true,
+        isReSearch: false,
+        columns: [
+            {
+                label: "ID.",
+                field: "id",
+                width: "3%",
+                headerClasses: ["center"],
+                columnClasses: ["center"],
+                sortable: true,
+                isKey: true,
+            },
+            {
+                label: "CPF",
+                field: "cpf",
+                width: "10%",
+                sortable: true,
+            },
+            {
+                label: "NOME",
+                field: "nome",
+                width: "10%",
+                sortable: true,
+            },
+            {
+                label: "Data atendimento",
+                field: "data_atendimento",
+                width: "10%",
+                sortable: true,
+            },
+        ],
+        rows: [],
+        totalRecordCount: 0,
+        sortable: {
+            order: "id",
+            sort: "asc",
+        },
+    });
 
+    const doSearch = (offset, limit, order, sort) => {
+        table.isLoading = true;
+
+        setTimeout(() => {
+            table.isReSearch = offset == undefined ? true : false;
+           
+            if(offset >= limit){
+                limit = offset+limit;
+            }
+
+            table.rows = getDados(props.atendimentos, offset, limit, order, sort);
+        
+            table.totalRecordCount = table.rows.length;
+            table.sortable.order = order;
+            table.sortable.sort = sort;
+
+            table.isLoading = false;
+        }, 600);
+    };
+
+    const getDados = (atendimentos, offst, limit, order, sort) => {  
+        let data = [];
+
+        if(atendimentos){
+            for (let i = offst; i < limit; i++) {                
+                if(atendimentos[i]){
+                    data.push({
+                        id: atendimentos[i].id,           
+                        cpf: atendimentos[i].assistido.pessoa.cpf,               
+                        nome: atendimentos[i].assistido.pessoa.nome, 
+                        data_atendimento: atendimentos[i].data_atendimento,                   
+                    });
+                }               
+            }
+        }   
+        
+        if(sort == 'asc'){
+            const propComparator = (propName) =>
+                (a, b) => a[propName] == b[propName] ? 0 : a[propName] < b[propName] ? -1 : 1
+
+            data.sort(propComparator(order));
+
+        }else{
+            const propComparator = (propName) =>
+                (a, b) => a[propName] == b[propName] ? 0 : a[propName] > b[propName] ? -1 : 1
+
+            data.sort(propComparator(order));
+        }      
+
+        return data.map((elemento) => {  
+
+            elemento.data_atendimento =elemento.data_atendimento.split('-').reverse().join('/');
+
+            return elemento;
+        });
+    }   
+
+    doSearch(0,10,'id','asc');
+    
 </script>
+
+<style scope>
+    .center {
+        text-align: center !important;
+    }
+
+    ::slotted(.vtl-table .vtl-thead .vtl-thead-th) {
+        background-color: #000;
+    }
+</style>
 
     

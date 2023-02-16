@@ -36,4 +36,10 @@ class Atendimento extends Model
         $this->attributes['data_atendimento'] = Carbon::createFromFormat('d/m/Y', $value);
 
     }
+
+    // public function getDataAtendimentoAttribute(){      
+       
+    //     return Carbon::parse($this->attributes['data_atendimento'])->format('d/m/Y');
+
+    // }
 }

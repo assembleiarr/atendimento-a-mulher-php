@@ -1,7 +1,6 @@
 table.table-default{
     @apply 
-        w-full whitespace-nowrap bg-white;
-
+        w-full bg-white overflow-x-auto shadow;
 }
 
 table.table-default td{

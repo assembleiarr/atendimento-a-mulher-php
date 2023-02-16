@@ -86,6 +86,9 @@ class AssistidosController extends Controller
        
         $pessoa = \App\Models\Pessoa::where('cpf', $cpf)->first();
 
+        if($pessoa)
+            $pessoa->load('assistido')->load('endereco')->load('endereco.municipio');       
+
         return $pessoa;
     }
 }

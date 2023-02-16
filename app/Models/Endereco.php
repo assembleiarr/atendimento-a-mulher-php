@@ -15,7 +15,7 @@ class Endereco extends Model
 
     protected $fillable = [
         'cep',
-        'lograduro',
+        'logradouro',
         'municipio_id',
         'numero',
         'bairro',
@@ -32,6 +32,11 @@ class Endereco extends Model
     {
         $this->attributes['bairro'] = mb_strtoupper($value, 'UTF-8');
 	}
+    
+    public function municipio()
+    {
+        return $this->belongsTo(Municipio::class);
+    }
 
 
 }

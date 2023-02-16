@@ -17,10 +17,10 @@
         
         </div>
 
-        <div class="text-sm pl-6 font-semibold mb-4" v-show="submenu">
+        <div class="pl-6 font-semibold mb-4 py-3" v-show="submenu">
             <div class="p-1 mt-2" v-for="ix in items.subitems">
               
-              <Link :class="ix.link == routeActive ? 'text-pink-200' : ''" class="hover:text-pink-200 flex items-center" :href="$route(ix.link)">
+              <Link :class="ix.link == routeActive ? 'text-pink-400' : ''" class="hover:text-pink-400 flex items-center" :href="$route(ix.link)">
                 {{ ix.nome }}
               </Link>              
             </div>

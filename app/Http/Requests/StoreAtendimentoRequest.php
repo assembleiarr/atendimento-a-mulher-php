@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\Cpf;
 
 class StoreAtendimentoRequest extends FormRequest
 {
@@ -27,7 +28,8 @@ class StoreAtendimentoRequest extends FormRequest
             'nome' => ['required','max:128'],
             'areas' => ['required'],
             'data_hora' => ['date_format:d/m/Y', 'before_or_equal:today'],
-            'telefone_principal' => ['min:14','max:15']
+            'telefone_principal' => ['nullable','min:13','max:14'],
+            'cpf' => ['required'],
         ];
     }
 
@@ -37,7 +39,8 @@ class StoreAtendimentoRequest extends FormRequest
             'nome' => 'Nome completo',
             'areas' => 'Áreas de atendimento',
             'data_hora' => 'Data do atendimento',
-            'telefone_principal' => 'Telefone'
+            'telefone_principal' => 'Telefone',
+            'cpf' => 'CPF'
         ];
     }
 

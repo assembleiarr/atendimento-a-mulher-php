@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('enderecos', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedInteger('pessoa_id')->nullable(false);
+            $table->unsignedInteger('pessoa_id')->nullable(false)->unique();
             $table->foreign('pessoa_id')->references('id')->on('pessoas')->onUpdate('cascade')->onDelete('cascade');
 
             $table->string('cep', 8)->nullable(true);

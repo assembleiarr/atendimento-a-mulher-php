@@ -14,7 +14,8 @@ npm install uuid
 npm install --save phosphor-vue@next
 npm i maska
 npm i v-calendar@3.0.0-alpha.4
-
+npm install vue-loading-overlay 
+npm install vue3-table-lite --save
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 

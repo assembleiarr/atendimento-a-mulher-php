@@ -17,7 +17,7 @@ class AtendimentosController extends Controller
      */
     public function index()
     {
-        $atendimentos = Atendimento::with('assistido', 'assistido.pessoa')->paginate(10);
+        $atendimentos = Atendimento::with('assistido', 'assistido.pessoa')->get();
 
         return Inertia::render('Atendimento/Index', [
             'atendimentos' => $atendimentos
@@ -42,7 +42,8 @@ class AtendimentosController extends Controller
 
         return Inertia::render('Atendimento/Importar', [
             'estados' => $estados,
-            'areas' => \App\Models\Area::all()->pluck('nome', 'id')
+            'areas' => \App\Models\Area::all()->pluck('nome', 'id'),
+            'letras' => range('A', 'Z'),
         ]);
     }
 
@@ -71,35 +72,65 @@ class AtendimentosController extends Controller
 
     public function store(StoreAtendimentoRequest $request)
     {
-        $pessoa = \App\Models\Pessoa::create([
-           'nome' => $request->get('nome'),
-           'cpf' => $request->get('cpf'),
-           'telefone_principal' => $request->get('telefone_principal'),
-        ]);
+        $exists_pessoa = \App\Models\Pessoa::where('cpf', preg_replace("/[^0-9]/","", $request->get('cpf')))->first();
 
-        $endereco = $pessoa->endereco()->create([
-            'cep' => $request->get('cep'),
-            'logradouro' => $request->get('logradouro'),
-            'numero' => $request->get('numero'),
-            'bairro' => $request->get('bairro'),
-            'complemento' => $request->get('complemento'),
-            'municipio_id' => $request->get('municipio_id'),        
-        ]);
+        if ($exists_pessoa)
+        {
+            $exists_pessoa->nome = $request->get('nome');
+            $exists_pessoa->telefone_principal = $request->get('telefone_principal');
+            
+            $exists_pessoa->save();           
 
-        $assistido = \App\Models\Assistido::create([
-            'pessoa_id' => $pessoa->id,
-            'local_arquivo' => $request->get('local_arquivo'),
-        ]);
-        
+            if($exists_pessoa->endereco)
+            {            
+                $exists_pessoa->endereco()->update([
+                    'logradouro' => mb_strtoupper($request->get('logradouro'),'UTF-8'),
+                    'numero' => mb_strtoupper($request->get('numero'),'UTF-8'),
+                    'bairro' => mb_strtoupper($request->get('bairro'),'UTF-8'),
+                    'complemento' => mb_strtoupper($request->get('complemento'),'UTF-8'),
+                    'municipio_id' => $request->get('municipio_id'),        
+                ]);
+            }
+          
+            if($exists_pessoa->assistido){               
+                
+                $exists_pessoa->assistido()->update([
+                    'local_arquivo' => $request->get('local_arquivo_id')." - ".$request->get('local_arquivo_letra')
+                ]);
+            }
+
+            $pessoa = $exists_pessoa;
+
+        }else{
+            $pessoa = \App\Models\Pessoa::create([
+                'nome' => $request->get('nome'),
+                'cpf' => $request->get('cpf'),
+                'telefone_principal' => $request->get('telefone_principal'),
+             ]);
+
+             $endereco = $pessoa->endereco()->create([
+                'cep' => $request->get('cep'),
+                'logradouro' => $request->get('logradouro'),
+                'numero' => $request->get('numero'),
+                'bairro' => $request->get('bairro'),
+                'complemento' => $request->get('complemento'),
+                'municipio_id' => $request->get('municipio_id'),        
+            ]);
+
+            $assistido = $pessoa->assistido()->create([              
+                'local_arquivo' => $request->get('local_arquivo'),
+            ]);
+        }       
+
         $atendimento = \App\Models\Atendimento::create([
-            'assistido_id' => $assistido->id,
+            'assistido_id' => $pessoa->assistido->id,
             'recepcao_tipo' => $request->get('recepcao_tipo'),
             'is_importado' => $request->get('is_importado'),
             'data_atendimento' => $request->get('data_atendimento'),
         ]);   
-        
-        $atendimento->areas()->attach($request->get('areas'));
 
+        $atendimento->areas()->attach($request->get('areas'));
+     
         return redirect()->route('atendimentos')->with('success', 'Atendimento cadastrado.');
        
     }
