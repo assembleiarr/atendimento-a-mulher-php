@@ -19,7 +19,7 @@
               </template>
             </Dropdown>
           </div>
-          <div class="md:text-md flex items-center shadow justify-between p-4 w-full text-sm bg-white md:px-12 md:py-0">
+          <div class="md:text-md flex items-center border-b border-gray-200 justify-between p-4 w-full text-sm bg-white md:px-12 md:py-0">
             <div class="mr-4 mt-1 flex items-center text-pink-700 font-bold text-lg">
               <!-- <img class="fill-white object-fill h-12 mr-5" src="../../img/chame.png"/>  -->
               CENTRO HUMANITÁRIO DE APOIO À MULHER

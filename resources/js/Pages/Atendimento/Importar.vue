@@ -21,13 +21,12 @@
                 <form @submit.prevent="form.post('/atendimento')">
 
                     <div class="flex flex-wrap -mb-8 -mr-6 p-8 outline-none box-border">
+                        <div class="w-full mb-2 text-pink-600 text-xl font-bold">Dados pessoais</div>
+
                         <TextInput :focus="cpfFocus" @blur="loadAssistido" v-model="form.cpf" v-maska data-maska="###.###.###-##" :error="form.errors.cpf" class="pb-8 pr-6 w-full lg:w-1/3" label="CPF" />
+                                                                        
                         <TextInput :key="componentKey"  :focus="dataFocus" v-model="form.data_atendimento" v-maska data-maska="##/##/####" placeholder="DD/MM/AAAA" :error="form.errors.data_atendimento" class="pb-8 pr-6 w-full lg:w-1/3" label="Data do atendimento"/>
 
-                        <div class="w-1/3"></div>
-
-                        <TextInput  v-model="form.nome" :error="form.errors.nome" class="pb-8 pr-6 w-full lg:w-2/3" label="Nome do assistido"/>
-                        
                         <div class="pb-8 pr-6 w-full lg:w-1/3">
 
                             <label class="form-label flex items-center">Nº/LETRA de identificação no Arquivo</label>
@@ -35,7 +34,7 @@
                             <div class="flex items-center">
                                 <input v-model="form.local_arquivo_id" type="text" class="form-input rounded bg-gray-50 border-gray-400 w-2/3 focus:border-pink-400 focus:ring-pink-400 "/>
 
-                                <select v-model="form.local_arquivo_letra" class="ml-2 text-gray-600 bg-gray-50 rounded border-gray-400 focus:border-pink-400 focus:ring-pink-400 cursor-pointer">
+                                <select v-model="form.local_arquivo_letra" class="ml-2 text-gray-600 bg-gray-50 rounded border-gray-400 w-1/3  focus:border-pink-400 focus:ring-pink-400 cursor-pointer">
                                     <option :value="null" selected>Letra</option>
                                     <option v-for="letra in letras" :value="letra">
                                         {{ letra }}
@@ -44,6 +43,11 @@
                             </div>
 
                         </div>
+
+                        <TextInput  v-model="form.nome" :error="form.errors.nome" class="pb-8 pr-6 w-full lg:w-2/3" label="Nome da assistida"/>
+                        <TextInput v-model="form.data_nascimento" v-maska data-maska="##/##/####" placeholder="DD/MM/AAAA" :error="form.errors.data_nascimento" class="pb-8 pr-6 w-full lg:w-1/3" label="Data de nascimento"/>
+
+                        <div class="w-full mb-2 mt-3 text-pink-600 text-xl font-bold">Informações de contato</div>
 
                         <SelectInput @change="loadMunicipios(form.estado)" v-model="form.estado" :error="form.errors.estado" class="pb-8 pr-6 w-full lg:w-1/3" label="Estado">
                             <option :value="null">Selecione o Estado </option>
@@ -62,7 +66,9 @@
                         <TextInput v-model="form.telefone_principal" v-maska data-maska="(##) #########" :error="form.errors.telefone_principal" class="pb-8 pr-6 w-full lg:w-1/3" label="Telefone"/>
 
                         <div class="pb-8 pr-6 w-full lg:w-2/3 pl-2">
-                            <label class="form-label flex items-center" :class="form.errors.areas ? 'text-red-700 font-semibold' : '' ">Áreas de atendimento: </label>
+                            <div class="w-full mb-2 text-pink-600 text-xl font-bold">Áreas de atendimento</div>
+
+                            <!-- <label class="form-label flex items-center" :class="form.errors.areas ? 'text-red-700 font-semibold' : '' ">Áreas de atendimento: </label> -->
 
                             <div class="flex items-center pt-2">
                                 <div v-for="area, key in areas">
@@ -122,6 +128,7 @@
         nome: null, 
         local_arquivo_id: null,
         local_arquivo_letra: null,
+        data_nascimento: null,
         cpf: null,
         estado: null,
         municipio_id: null,
@@ -145,6 +152,8 @@
                 form.areas.splice(index, 1);
             }
         }
+
+        console.log(form.areas);
     }
 
     function loadMunicipios(estado_id){
@@ -165,37 +174,45 @@
     }
 
     function loadAssistido(){
-        const cpf = form.cpf.replace(/\D/gim, '');
+        if(form.cpf != null){
+            const cpf = form.cpf.replace(/\D/gim, '');
 
-        isLoading.value = true;
+            isLoading.value = true;
 
-        axios.get('/api/assistido/'+cpf)
-            .then(function (response) {              
+            axios.get('/api/assistido/'+cpf)
+                .then(function (response) {              
 
-                if(response.data){ 
-                    let fields = Object.keys(response.data);            
-                    form.nome = response.data.nome;
-                    form.telefone_principal = response.data.telefone_principal;
-                    form.logradouro = response.data.endereco.logradouro;
-                    form.numero = response.data.endereco.numero;
-                    form.bairro = response.data.endereco.bairro;
-                    form.estado = response.data.endereco.municipio.estado_id;
-                    loadMunicipios(response.data.endereco.municipio.estado_id);
-                    form.municipio_id = response.data.endereco.municipio_id;
-                   
-                }else{                  
-                    form.reset();                 
-                    form.cpf = cpf;                    
-                }
-            })
-            .catch(function (error) {
-                console.error(error);
-            })
-            .then(function () {
-                isLoading.value = false;
-                dataFocus.value = true;
-                componentKey.value = componentKey.value + 1;                   
-            });  
+                    if(response.data){ 
+                        let fields = Object.keys(response.data);         
+                        
+                        form.nome = response.data.nome;
+                        form.telefone_principal = response.data.telefone_principal;
+                        form.local_arquivo_id = response.data.assistido.local_arquivo.split("-")[0];
+                        form.local_arquivo_letra = response.data.assistido.local_arquivo.split("-")[1];
+                        form.data_nascimento = response.data.data_nascimento;
+                        form.logradouro = response.data.endereco.logradouro;
+                        form.numero = response.data.endereco.numero;
+                        form.bairro = response.data.endereco.bairro;
+                        form.estado = response.data.endereco.municipio.estado_id;
+                        
+                        loadMunicipios(response.data.endereco.municipio.estado_id);
+                        form.municipio_id = response.data.endereco.municipio_id;
+                    
+                    }else{                  
+                        form.reset();                 
+                        form.cpf = cpf;                    
+                    }
+                })
+                .catch(function (error) {
+                    console.error(error);
+                })
+                .then(function () {
+                    isLoading.value = false;
+                    dataFocus.value = true;
+                    componentKey.value = componentKey.value + 1;                   
+                });  
+        }
+        
 
     }
 

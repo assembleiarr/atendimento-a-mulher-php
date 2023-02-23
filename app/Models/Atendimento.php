@@ -17,6 +17,7 @@ class Atendimento extends Model
     protected $fillable = [
         'assistido_id',
         'data_atendimento',
+        'hora_atendimento',
         'recepcao_tipo',
         'is_importado'
     ];  
@@ -32,9 +33,8 @@ class Atendimento extends Model
     }
 
     public function setDataAtendimentoAttribute($value){      
-       
-        $this->attributes['data_atendimento'] = Carbon::createFromFormat('d/m/Y', $value);
-
+        if($value)
+            $this->attributes['data_atendimento'] = Carbon::createFromFormat('d/m/Y', $value);
     }
 
     // public function getDataAtendimentoAttribute(){      

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Inertia\Inertia;
+
 
 class AssistidosController extends Controller
 {
@@ -13,7 +15,7 @@ class AssistidosController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('Assistido/Index');
     }
 
     /**
@@ -85,6 +87,17 @@ class AssistidosController extends Controller
     public function api($cpf){
        
         $pessoa = \App\Models\Pessoa::where('cpf', $cpf)->first();
+
+        if($pessoa)
+            $pessoa->load('assistido')->load('endereco')->load('endereco.municipio');       
+
+        return $pessoa;
+    }
+
+    public function pesquisa($cpf_or_nome){
+        $cpf = preg_replace("/[^0-9]/","", $cpf_or_nome);
+       
+        $pessoa = \App\Models\Pessoa::where('cpf', 'LIKE', '%'.$cpf.'%')->get();
 
         if($pessoa)
             $pessoa->load('assistido')->load('endereco')->load('endereco.municipio');       

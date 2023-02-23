@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 use App\Http\Controllers\AtendimentosController;
+use App\Http\Controllers\AssistidosController;
 
 
 /*
@@ -35,8 +36,15 @@ Route::get('/dashboard', function () {
 Route::controller(AtendimentosController::class)->group(function () {
     Route::get('/atendimentos', 'index')->name('atendimentos'); 
     Route::get('/atendimento', 'create')->name('atendimento.cadastrar');
+
     Route::get('/atendimento/importar', 'importar')->name('atendimento.importar'); 
     Route::post('/atendimento', 'store')->name('atendimento.salvar'); 
+    Route::post('/atendimento/salvar/{type}', 'cadastrar')->name('atendimento.novo.salvar');
+});
+
+Route::controller(AssistidosController::class)->group(function () {
+    Route::get('/assistidas', 'index')->name('assistidas');   
+    Route::get('/relatorios', 'create')->name('relatorios');  
 });
 
 require __DIR__.'/auth.php';

@@ -29,7 +29,7 @@ class StoreAtendimentoRequest extends FormRequest
             'areas' => ['required'],
             'data_hora' => ['date_format:d/m/Y', 'before_or_equal:today'],
             'telefone_principal' => ['nullable','min:13','max:14'],
-            'cpf' => ['required'],
+            'cpf' => ['required', new Cpf],
         ];
     }
 

@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use Carbon\Carbon;
+
+
 class Pessoa extends Model
 {
     use HasFactory;
@@ -14,6 +17,7 @@ class Pessoa extends Model
     protected $fillable = [
         'nome',
         'cpf',
+        'data_nascimento',
         'telefone_principal'
     ];
 
@@ -46,6 +50,17 @@ class Pessoa extends Model
 
         return $formatado;
 	}
+
+    public function setDataNascimentoAttribute($value){      
+        if($value)
+            $this->attributes['data_nascimento'] = Carbon::createFromFormat('d/m/Y', $value);
+    }
+
+    public function getDataNascimentoAttribute(){      
+       
+        return Carbon::parse($this->attributes['data_nascimento'])->format('d/m/Y');
+
+    }
 
     public function endereco()
     {

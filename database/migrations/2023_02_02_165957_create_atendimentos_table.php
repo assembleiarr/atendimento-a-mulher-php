@@ -24,7 +24,7 @@ return new class extends Migration
 
             $table->string('recepcao_tipo',16)->nullable(false);
             $table->boolean('is_importado')->nullable(true);
-            $table->text('observacao')->nullable(true);
+            $table->text('observacoes')->nullable(true);
             
             $table->timestamps();
         });

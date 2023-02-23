@@ -28,13 +28,14 @@
     const menu = [{
       'nome':'Atendimentos',
       'icon' : 'ph-chat-teardrop-text',
+      'link' : 'atendimentos',
       'subitems': [
         {
           'nome' : 'Consultar atendimentos',
           'link' : 'atendimentos'
         },
         {
-          'nome' : 'Cadastrar atendimento',
+          'nome' : 'Novo atendimento',
           'link' : 'atendimento.cadastrar'
         },
         {
@@ -42,20 +43,29 @@
           'link' : 'atendimento.importar'
         }],
     },
+    // {
+    //   'nome':'Assistidas',
+    //   'icon' : 'ph-user',
+    //   'link' : 'assistidas'
+    // },
     {
       'nome':'Relatórios',
       'icon' : 'ph-chart-line-up',
+      'link' : 'relatorios'
     }
     // {
     //   'nome':'Atendimentos2',
-    //   'subitems': [{
+    //   'icon' : 'ph-user',
+    //   'link' : 'assistidas',
+    //   'subitems': [
+    //     {
     //       'nome' : 'submenu2-1',
-    //       'link' : 'link1'
+    //       'link' : 'atendimentos'
     //     },
     //     {
     //       'nome' : 'submenu2-2',
-    //       'link' : 'link2'
-    //     }],
+    //       'link' : 'atendimentos'
+    //     }]        
     // }
   ]
 

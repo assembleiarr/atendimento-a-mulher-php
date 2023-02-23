@@ -17,7 +17,7 @@ class AtendimentosController extends Controller
      */
     public function index()
     {
-        $atendimentos = Atendimento::with('assistido', 'assistido.pessoa')->get();
+        $atendimentos = Atendimento::with('assistido', 'assistido.pessoa','areas')->orderBy('id', 'desc')->get();
 
         return Inertia::render('Atendimento/Index', [
             'atendimentos' => $atendimentos
@@ -31,7 +31,9 @@ class AtendimentosController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Atendimento/Create');
+        return Inertia::render('Atendimento/Create', [
+            'areas' => \App\Models\Area::all()->pluck('nome', 'id'),
+        ]);
     }
 
     public function importar()
@@ -69,9 +71,46 @@ class AtendimentosController extends Controller
         return $paises;
     }
 
+    public function cadastrar(StoreAtendimentoRequest $request, $tipo){
+
+        $exists_pessoa = \App\Models\Pessoa::where('cpf', preg_replace("/[^0-9]/","", $request->get('cpf')))->first();
+
+        if($exists_pessoa){
+            $exists_pessoa->nome = $request->get('nome');
+            $exists_pessoa->telefone_principal = $request->get('telefone_principal');
+
+            $exists_pessoa->save();
+
+            $pessoa = $exists_pessoa;
+        }else{
+            $pessoa = \App\Models\Pessoa::create([
+                'nome' => $request->get('nome'),
+                'cpf' => $request->get('cpf'),
+                'telefone_principal' => $request->get('telefone_principal'),
+             ]);
+
+             $assistido = $pessoa->assistido()->create();
+        }
+
+        $atendimento = \App\Models\Atendimento::create([
+            'assistido_id' => $pessoa->assistido->id,
+            'recepcao_tipo' => $tipo,
+            'is_importado' => false,
+            'data_atendimento' => $request->get('data_atendimento'),
+            'hora_atendimento' => $request->get('hora_h').":".$request->get('hora_m'),
+            'observacoes' => $request->get('observacoes'),
+        ]);   
+
+        $atendimento->areas()->attach($request->get('areas'));
+     
+        return redirect()->route('atendimentos')->with('success', 'Atendimento cadastrado com sucesso.');
+
+    }
+
 
     public function store(StoreAtendimentoRequest $request)
-    {
+    {      
+        dd($request->all());
         $exists_pessoa = \App\Models\Pessoa::where('cpf', preg_replace("/[^0-9]/","", $request->get('cpf')))->first();
 
         if ($exists_pessoa)
@@ -95,7 +134,7 @@ class AtendimentosController extends Controller
             if($exists_pessoa->assistido){               
                 
                 $exists_pessoa->assistido()->update([
-                    'local_arquivo' => $request->get('local_arquivo_id')." - ".$request->get('local_arquivo_letra')
+                    'local_arquivo' => $request->get('local_arquivo_id')."-".$request->get('local_arquivo_letra')
                 ]);
             }
 
@@ -105,6 +144,7 @@ class AtendimentosController extends Controller
             $pessoa = \App\Models\Pessoa::create([
                 'nome' => $request->get('nome'),
                 'cpf' => $request->get('cpf'),
+                'data_nascimento' => $request->get('data_nascimento'),
                 'telefone_principal' => $request->get('telefone_principal'),
              ]);
 
@@ -118,7 +158,7 @@ class AtendimentosController extends Controller
             ]);
 
             $assistido = $pessoa->assistido()->create([              
-                'local_arquivo' => $request->get('local_arquivo'),
+                'local_arquivo' => $request->get('local_arquivo_id')."-".$request->get('local_arquivo_letra'),
             ]);
         }       
 
@@ -131,7 +171,7 @@ class AtendimentosController extends Controller
 
         $atendimento->areas()->attach($request->get('areas'));
      
-        return redirect()->route('atendimentos')->with('success', 'Atendimento cadastrado.');
+        return redirect()->route('atendimentos')->with('success', 'Atendimento cadastrado com sucesso.');
        
     }
 

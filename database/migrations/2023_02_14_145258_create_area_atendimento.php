@@ -15,7 +15,6 @@ return new class extends Migration
     {
         Schema::create('area_atendimento', function (Blueprint $table) {
             $table->id();
-
             
             $table->unsignedInteger('area_id')->nullable(true);
             $table->foreign('area_id')->references('id')->on('areas')->onUpdate('cascade');

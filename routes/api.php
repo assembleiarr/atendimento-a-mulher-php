@@ -27,5 +27,7 @@ Route::get('/municipios/{estado_id}', [AtendimentosController::class, 'municipio
 Route::get('/paises', [AtendimentosController::class, 'paises']);
 
 Route::get('/assistido/{cpf}', [AssistidosController::class, 'api']);
+Route::get('/assistido/pesquisa/{cpf_or_nome}', [AssistidosController::class, 'pesquisa']);
+
 
 
