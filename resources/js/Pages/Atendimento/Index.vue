@@ -47,7 +47,7 @@
             />
         </div>        
 
-    </AdminLayout>  
+    </AdminLayout>yy
     
 </template>
 
