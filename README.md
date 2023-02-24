@@ -1,13 +1,48 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+## Instalação
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+1) Clonar o projeto do Repositório GIT: 
 
-## About Laravel
+```sh
+git clone ttps://gitlab.com/ale-rr/php/usuarios-ad.git usuarios
+cd usuarios
+```
+
+2) Instalar dependências PHP:
+
+```sh
+composer install
+```
+
+3) Instalar dependências NPM:
+
+```sh
+npm ci
+```
+
+4) Setar configurações:
+
+```sh
+cp .env.example .env
+```
+
+5) Gerar a chave da aplicação:
+
+```sh
+php artisan key:generate
+```
+
+6) Gerar base de dados:
+
+```sh
+php artisan migrate --seed
+```
+
+
+
+
+
+
+
 
 npm i @popperjs/core
 npm install uuid
