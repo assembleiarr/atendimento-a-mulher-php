@@ -296,10 +296,6 @@ import { end } from '@popperjs/core';
         doSearch(0, range.value == '' ? 10 : 100, "order", "asc");  
     }
 
-    function limparFiltros(){
-
-    }
-
     doSearch(0,10,'id','desc');
     
 </script>

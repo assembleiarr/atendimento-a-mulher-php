@@ -110,7 +110,6 @@ class AtendimentosController extends Controller
 
     public function store(StoreAtendimentoRequest $request)
     {      
-        dd($request->all());
         $exists_pessoa = \App\Models\Pessoa::where('cpf', preg_replace("/[^0-9]/","", $request->get('cpf')))->first();
 
         if ($exists_pessoa)
