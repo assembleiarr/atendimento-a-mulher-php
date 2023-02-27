@@ -27,7 +27,8 @@ class StoreAtendimentoRequest extends FormRequest
         return [
             'nome' => ['required','max:128'],
             'areas' => ['required'],
-            'data_hora' => ['date_format:d/m/Y', 'before_or_equal:today'],
+            'data_atendimento' => ['nullable', 'date_format:d/m/Y', 'before_or_equal:today'],
+            'data_nascimento' => ['nullable','date_format:d/m/Y'],
             'telefone_principal' => ['nullable','min:13','max:14'],
             'cpf' => ['required', new Cpf],
         ];
@@ -38,7 +39,8 @@ class StoreAtendimentoRequest extends FormRequest
         return [
             'nome' => 'Nome completo',
             'areas' => 'Áreas de atendimento',
-            'data_hora' => 'Data do atendimento',
+            'data_atendimento' => 'Data do atendimento',
+            'data_nascimento' => 'Data do atendimento',
             'telefone_principal' => 'Telefone',
             'cpf' => 'CPF'
         ];

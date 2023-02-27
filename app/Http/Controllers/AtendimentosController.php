@@ -124,6 +124,7 @@ class AtendimentosController extends Controller
         {
             $exists_pessoa->nome = $request->get('nome');
             $exists_pessoa->telefone_principal = $request->get('telefone_principal');
+            $exists_pessoa->data_nascimento = $request->get('data_nascimento');
             
             $exists_pessoa->save();           
 

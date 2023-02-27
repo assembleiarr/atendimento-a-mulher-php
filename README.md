@@ -3,8 +3,8 @@
 1) Clonar o projeto do Repositório GIT: 
 
 ```sh
-git clone ttps://gitlab.com/ale-rr/php/usuarios-ad.git usuarios
-cd usuarios
+git clone ttps://gitlab.com/ale-rr/php/chame.git chame
+cd chame
 ```
 
 2) Instalar dependências PHP:
