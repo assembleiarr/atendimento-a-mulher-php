@@ -21,7 +21,7 @@
                 <div class="w-1/3"></div>
                 <div class="w-1/3"></div>
 
-                <div class="w-1/3">
+                <div class="w-1/3 flex items-center">
                     <v-date-picker v-model="range" is-range>
                         <template v-slot="{ inputValue, inputEvents }">
                             <div class="flex justify-center items-center">
@@ -38,12 +38,17 @@
                                 placeholder="Data final"
                                 class="form-input rounded border-gray-400 focus:ring-pink-300 focus:border-pink-300 placeholder:text-gray-400"
                             />
-                            <button @click="searchDate" type="button" class="px-3 py-2 rounded border-pink-600 ml-2 text-white bg-pink-600 hover:bg-pink-800 flex items-center">
+                            <button @click="searchDate" type="button" class="btn p-2 rounded border-pink-600 ml-2 text-white bg-pink-600 hover:bg-pink-800 flex items-center">
                                 <ph-funnel weight="fill" class="mr-1" :size="24" />Filtrar</button>
                             </div>
                         </template>
                     </v-date-picker>
-                </div>                       
+                </div>         
+                <div class="w-1/3 "></div>
+                <div class="w-1/3 flex justify-end">
+                    <button @click="cleanSearch" type="button" class="btn p-2 font-normal bg-white text-gray-500 border-gray-200 border hover:text-pink-600 hover:border-pink-400 ml-3 flex items-center">
+                        <ph-eraser  class="mr-1" :size="24" />Limpar filtros</button>
+                </div>
             </div>
 
             <TableLite
@@ -290,6 +295,15 @@
         table.isHidePaging = range.value != '' ? true : false;      
 
         doSearch(0, range.value == '' ? 10 : 100, "order", "asc");  
+    }
+
+    function cleanSearch(){
+        
+        nomeOuCPF.value = '';
+        range.value = '';
+        componentKey.value += 1;
+        table.isHidePaging = false;
+        doSearch(0,10,'id','desc');
     }
 
     doSearch(0,10,'id','desc');
