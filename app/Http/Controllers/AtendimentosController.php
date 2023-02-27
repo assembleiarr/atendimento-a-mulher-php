@@ -17,7 +17,14 @@ class AtendimentosController extends Controller
      */
     public function index()
     {
-        $atendimentos = Atendimento::with('assistido', 'assistido.pessoa','areas')->orderBy('id', 'desc')->get();
+        $atendimentos = Atendimento::with(
+            'assistido', 
+            'assistido.pessoa',
+            'assistido.pessoa.endereco',
+            'assistido.pessoa.endereco.municipio', 
+            'assistido.pessoa.endereco.municipio.estado',
+            'areas')
+            ->orderBy('id', 'desc')->get();
 
         return Inertia::render('Atendimento/Index', [
             'atendimentos' => $atendimentos
@@ -87,6 +94,7 @@ class AtendimentosController extends Controller
                 'nome' => $request->get('nome'),
                 'cpf' => $request->get('cpf'),
                 'telefone_principal' => $request->get('telefone_principal'),
+                'data_nascimento' => $request->get('data_nascimento'),
              ]);
 
              $assistido = $pessoa->assistido()->create();

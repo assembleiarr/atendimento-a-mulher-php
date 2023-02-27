@@ -1,6 +1,8 @@
 <template>
     <Head title="Atendimentos" />
 
+    <ModalDetail :atendimento="atendimentoClicked" v-if="showModal" @close-modal="showModal = false" />
+
     <AdminLayout>
         <div>
              <Loading :active.sync="isLoading" 
@@ -15,7 +17,6 @@
 
             <div class="w-full mb-5 flex flex-wrap outline-none box-border">
                 <TextInput class="w-full md:w-1/3 mb-2" v-model="nomeOuCPF" @keyup="searchNomeOuCPF" type="text" placeholder="Buscar por Nome ou CPF"/>
-                <!-- <TextInput class="w-full md:w-1/3 mb-2" v-model="dataRange" @keyup="searchNomeOuCPF" type="text" placeholder="Buscar por Nome ou CPF" label="Nome ou CPF"/> -->
                 
                 <div class="w-1/3"></div>
                 <div class="w-1/3"></div>
@@ -41,27 +42,8 @@
                                 <ph-funnel weight="fill" class="mr-1" :size="24" />Filtrar</button>
                             </div>
                         </template>
-                        </v-date-picker>
-                </div>                
-                
-
-                <div class="w-1/3"></div>
-                    <!-- <TextInput class="w-full md:w-1/3 mb-2" v-model="searchNome" type="text" placeholder="Buscar por nome"/>
-                    <div class="w-2/3"></div> -->
-
-                <!-- 
-                    CRIAR UM RANGE DE DATAS
-                    <v-date-picker v-model="searchDataAtendimento" color="pink" :max-date='new Date()' >
-                    <template #default="{ inputValue, inputEvents }">     
-                        
-                            <input placeholder="Buscar por data do atendimento" class="bg-gray-50 form-input rounded border-gray-400 focus:ring-pink-300 focus:border-pink-300" :value="inputValue" v-on="inputEvents"/>
-                                               
-                    </template>        
-                </v-date-picker> -->
-
-                <!-- <TextInput class="w-full md:w-1/3" v-model="searchDataAtendimento" type="text" placeholder="Buscar por data do atendimento"/> -->
-                <!-- <TextInput class="w-full md:w-1/3" v-model="searchDataAtendimento" type="text" placeholder="Buscar por data do atendimento"/>
-                <TextInput class="w-full md:w-1/3" v-model="searchDataAtendimento" type="text" placeholder="Buscar por data do atendimento"/> -->
+                    </v-date-picker>
+                </div>                       
             </div>
 
             <TableLite
@@ -74,8 +56,12 @@
                 :is-hide-paging="table.isHidePaging"
                 :messages="table.messages"
                 @do-search="doSearch"
+                @row-clicked="rowClicked"
             />
         </div>        
+
+        <div v-show="showModal" class="bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-40"></div>
+
 
     </AdminLayout>
     
@@ -86,10 +72,10 @@
     import { Head } from '@inertiajs/inertia-vue3';
     import AdminLayout from '@/Layouts/AdminLayout.vue';
     import TextInput from '@/Components/TextInput.vue';
+    import ModalDetail from '@/Pages/Atendimento/ModalDetail.vue';
     import TableLite from "vue3-table-lite";
     import Loading from 'vue-loading-overlay';
     import 'vue-loading-overlay/dist/css/index.css';    
-import { end } from '@popperjs/core';
     
     const props = defineProps({
         atendimentos: Object,
@@ -99,6 +85,8 @@ import { end } from '@popperjs/core';
     const nomeOuCPF = ref('');
     const componentKey = ref(0);
     const range = ref({});
+    const showModal = ref(false);
+    const atendimentoClicked = ref(null);
 
     const table = reactive({
         isReSearch: false,
@@ -200,6 +188,12 @@ import { end } from '@popperjs/core';
        
     };
 
+    const rowClicked = (row) => {
+        showModal.value = true;
+        atendimentoClicked.value = row;
+    };
+           
+
     const getDados = (atendimentos, offst, limit, order, sort) => {  
         let data = [];
         const start_range = ref(null);
@@ -210,7 +204,6 @@ import { end } from '@popperjs/core';
             start_range.value = range.value.start.toISOString().slice(0, 10);
             end_range.value = range.value.end.toISOString().slice(0, 10);
         }
-
 
         if(atendimentos){
             for (let i = offst; i < limit; i++) {                
@@ -235,8 +228,11 @@ import { end } from '@popperjs/core';
                 nome: atendimento.assistido.pessoa.nome, 
                 data_atendimento: atendimento.data_atendimento,
                 recepcao_tipo: atendimento.recepcao_tipo,   
-                is_importado: atendimento.is_importado,            
-                areas: atendimento.areas  
+                is_importado: atendimento.is_importado,  
+                telefone_principal: atendimento.assistido.pessoa.telefone_principal,          
+                areas: atendimento.areas,
+                data_nascimento: atendimento.assistido.pessoa.data_nascimento,
+                endereco: atendimento.assistido.pessoa.endereco,
             })
         }
         
@@ -307,6 +303,10 @@ import { end } from '@popperjs/core';
 
     .vtl-table{       
         @apply rounded-md mb-5 bg-white border-0;
+    }
+
+    .vtl-tbody-tr{
+        @apply cursor-pointer;
     }
 
     .vtl-tbody-td{       

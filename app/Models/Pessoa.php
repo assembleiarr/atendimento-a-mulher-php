@@ -51,15 +51,16 @@ class Pessoa extends Model
         return $formatado;
 	}
 
-    public function setDataNascimentoAttribute($value){      
+    public function setDataNascimentoAttribute($value)
+    {      
         if($value)
             $this->attributes['data_nascimento'] = Carbon::createFromFormat('d/m/Y', $value);
     }
 
-    public function getDataNascimentoAttribute(){      
-       
-        return Carbon::parse($this->attributes['data_nascimento'])->format('d/m/Y');
-
+    public function getDataNascimentoAttribute()
+    {      
+        if($this->attributes['data_nascimento'])
+            return Carbon::parse($this->attributes['data_nascimento'])->format('d/m/Y');
     }
 
     public function endereco()
