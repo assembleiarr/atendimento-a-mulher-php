@@ -1,3 +1,15 @@
+# Sistema de Atendimento à Mulher
+
+Este sistema será usado pelo Centro Humanitário de Apoio à Mulher (CHAME), que faz parte do programa Procuradora Especial da Mulher.
+
+
+## Funcionalidades
+
+- Importação de Atendimentos
+- Cadastro de atendimentos via ZapChame
+- Listagem de atendimentos
+
+
 ## Instalação CHAME
 
 1) Clonar o projeto do Repositório GIT: 
@@ -46,9 +58,3 @@ php artisan migrate --seed
 ```sh
 npm run prod
 ```
-
-## Funcionalidades
-
-- Importação de Atendimentos
-- Cadastro de atendimentos via ZapChame
-- Listagem de atendimentos
