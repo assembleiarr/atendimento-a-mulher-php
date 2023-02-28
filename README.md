@@ -3,8 +3,8 @@
 1) Clonar o projeto do Repositório GIT: 
 
 ```sh
-git clone ttps://gitlab.com/ale-rr/php/chame.git chame
-cd chame
+git clonehttps://github.com/alrr-dti/atendimento-a-mulher-php.git atendimento-a-mulher
+cd atendimento-a-mulher
 ```
 
 2) Instalar dependências PHP:
@@ -47,3 +47,8 @@ php artisan migrate --seed
 npm run prod
 ```
 
+## Funcionalidades
+
+- Importação de Atendimentos
+- Cadastro de atendimentos via ZapChame
+- Listagem de atendimentos

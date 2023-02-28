@@ -183,16 +183,35 @@ class AtendimentosController extends Controller
        
     }
 
-
-    public function show($id)
-    {
-        //
-    }
-
     
     public function edit($id)
     {
-        //
+        $atendimento = \App\Models\Atendimento::with(
+            'assistido', 
+            'assistido.pessoa',
+            'assistido.pessoa.endereco',
+            'assistido.pessoa.endereco.municipio', 
+            'assistido.pessoa.endereco.municipio.estado',
+            'areas')->find($id);
+
+        return Inertia::render('Atendimento/Edit', [
+            'atendimento' => $atendimento,
+        ]);
+    }
+
+    public function show($id)
+    {
+        $atendimento = \App\Models\Atendimento::with(
+            'assistido', 
+            'assistido.pessoa',
+            'assistido.pessoa.endereco',
+            'assistido.pessoa.endereco.municipio', 
+            'assistido.pessoa.endereco.municipio.estado',
+            'areas')->find($id);
+
+        return Inertia::render('Atendimento/Detail', [
+            'atendimento' => $atendimento,
+        ]);
     }
 
 

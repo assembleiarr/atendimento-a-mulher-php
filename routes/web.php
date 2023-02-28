@@ -36,6 +36,9 @@ Route::get('/dashboard', function () {
 Route::controller(AtendimentosController::class)->group(function () {
     Route::get('/atendimentos', 'index')->name('atendimentos'); 
     Route::get('/atendimento', 'create')->name('atendimento.cadastrar');
+    Route::get('/atendimento/{id}/editar', 'edit')->name('atendimento.editar');
+    Route::get('/atendimento/{id}/detalhes', 'show')->name('atendimento.detalhes');
+
 
     Route::get('/atendimento/importar', 'importar')->name('atendimento.importar'); 
     Route::post('/atendimento', 'store')->name('atendimento.salvar'); 

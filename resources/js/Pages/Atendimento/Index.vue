@@ -67,7 +67,6 @@
 
         <div v-show="showModal" class="bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-40"></div>
 
-
     </AdminLayout>
     
 </template>
@@ -116,6 +115,12 @@
                 field: "nome",
                 width: "10%",
                 sortable: true,
+                display: function (row) {
+                    return (
+                        `<a data-id="${row.id}"
+                        class="is-rows-el name-btn">${row.nome}</a>`
+                    );
+                }
             },
             {
                 label: "Data atendimento",
@@ -155,6 +160,19 @@
                 width: "5%",
                 sortable: false,
             },
+            // {
+            //     label: 'Opções',
+            //     field:'quick',
+            //     headerClasses: ["center"],
+            //     columnClasses: ["center"],
+            //     width: "3%",
+            //     display: function (row) {
+            //         return (
+            //             '<a href="/atendimento/'+row.id+'/detalhes" class="mr-2 bg-gray-200 hover:bg-gray-400 hover:text-white py-1 px-2 rounded">Detalhes</a>'+
+            //             '<a href="/atendimento/'+row.id+'/editar" class="bg-gray-200 hover:bg-gray-400 hover:text-white py-1 px-2 rounded">Editar</a>'
+            //         );
+            //     },
+            // }
         ],
         rows: [],
         totalRecordCount: 0,
@@ -196,8 +214,7 @@
     const rowClicked = (row) => {
         showModal.value = true;
         atendimentoClicked.value = row;
-    };
-           
+    };           
 
     const getDados = (atendimentos, offst, limit, order, sort) => {  
         let data = [];
@@ -373,6 +390,10 @@
 
     .vtl-paging-pagination-page-li.vtl-paging-pagination-page-li-number.page-item.disabled a{
         @apply text-gray-300 !important;     
+    }
+
+    .form-input{
+        @apply bg-white;
     }
 
 </style>
